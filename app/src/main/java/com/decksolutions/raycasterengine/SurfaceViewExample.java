@@ -47,7 +47,7 @@ public class SurfaceViewExample extends SurfaceView implements
 
         private int DELAY;
         private final boolean DEBUGMODE = true;
-        private SurfaceThread surfaceThread;
+
 
         private HashMap<String, Bitmap> bitmaps;
 
@@ -141,18 +141,26 @@ public class SurfaceViewExample extends SurfaceView implements
             paint = new Paint();
 
             mapa = new byte[][]{
-                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+                    {1,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,2,2,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 
             };
 
@@ -208,8 +216,8 @@ public class SurfaceViewExample extends SurfaceView implements
                     angleColumns = FOV / planeWidth;
 
                      //posicion del player (con casillas de 64 x 64)
-                    playerX = (11*block_height)+(block_height/2);
-                    playerY = (3*block_height)+(block_height/2);
+                    playerX = (10*block_height)+(block_height/2);
+                    playerY = (12*block_height)+(block_height/2);
                     //angulo de vista en relacion al mundo
                     playerAngle = 45;
 
@@ -227,10 +235,7 @@ public class SurfaceViewExample extends SurfaceView implements
             holder.addCallback(this);
             setFocusable(true);
             setWillNotDraw(true);
-            if (surfaceCreated)
-                Log.d("SURFACE","IS CREATED BEFORE THREAD");
-            else
-                Log.d("SURFACE","IS NOT CREATED BEFORE THREAD");
+
 
         }
 
@@ -244,7 +249,7 @@ public class SurfaceViewExample extends SurfaceView implements
             int auxX,auxY;
 
             //Reviso si me puedo mover hacia esas áreas para avanzar
-            Log.d("MOTION","down, up, right, left:"+down+","+up+","+right+","+left+" PLAYER:"+playerX+","+playerY);
+            //Log.d("MOTION","down, up, right, left:"+down+","+up+","+right+","+left+" PLAYER:"+playerX+","+playerY);
             if (down)
             {
                 auxX = playerX - (int)((movement*Math.cos(Math.toRadians(playerAngle))));
@@ -281,7 +286,7 @@ public class SurfaceViewExample extends SurfaceView implements
             calculateDistances();
             long finFPS = System.currentTimeMillis();
 
-            FPS = (finFPS-iniFPS);
+            FPS = ((double)1000.0)/(finFPS-iniFPS);
         }
 
         public void onDraw(Canvas canvas) {
@@ -334,6 +339,12 @@ public class SurfaceViewExample extends SurfaceView implements
 
             if (DEBUGMODE)
             {
+                for (int i=0;i<10;i++)
+                {
+                    paint.setColor(Color.RED);
+                    canvas.drawLine(i*100,0,i*100,canvas.getHeight(),paint);
+                }
+
                 paint.setColor(Color.LTGRAY);
                 canvas.drawRect((float)canvas.getWidth()-300,0,(float)canvas.getWidth(),300,paint);
                 paint.setColor(Color.BLACK);
@@ -447,8 +458,7 @@ public class SurfaceViewExample extends SurfaceView implements
             //la rejilla, una para ver con qu� fila de la rejilla colisiona
             //y otra para ver con qu� columna. La distancia que sea menor de las
             //dos ser� la elegida.
-if (i==539)
-    System.out.println("aqui");
+
             double auxAngle=(actualAngle);
             //System.out.println(" auxAngle: "+auxAngle);
             if (auxAngle!=0 && auxAngle!=180)
@@ -458,7 +468,8 @@ if (i==539)
             }
             else
                 rowsPoints=null;
-
+if (i==123)
+    System.out.println("aqui");
             //Una vez que lo hemos hecho para las filas, tenemos que hacer
             //lo mismo para las columnas
             if (auxAngle!=90 || auxAngle!=270)
@@ -574,7 +585,10 @@ Log.d("TILE(1):"+i+"rowsdistance:"+rowsDistance+" "+colsDistance,""+rowsPoints[0
 Log.d("TILE(2):"+i+"rowsdistance:"+rowsDistance+" "+colsDistance,""+colsPoints[0]/block_height+" - "+colsPoints[1]/block_height+" - "+typeBlock);
                         //System.out.println("choca con columnas1: "+(colsPoints[0]/block_height)+" , "+(colsPoints[1]/block_height));
                 }
-
+else
+                {
+                    Log.d("TILE(3):"+i,"NOOOOOOOOOOOOOOOOOOOOOOOO");
+                }
                     //  System.out.println("wallDistance:"+wallDistance+" "+dataRay[i][0]+" "+dataRay[i][1]+" "+dataRay[i][2]+" "+dataRay[i][3]+" "+dataRay[i][4]);
 
 
@@ -692,7 +706,7 @@ Log.d("TILE(2):"+i+"rowsdistance:"+rowsDistance+" "+colsDistance,""+colsPoints[0
             realDistance = dataRay[0][3];
 
         //TODO para qué es esta linea?        realDistance = realDistance>>16;
-        System.out.println("---------planeDistance: "+planeDistance+" realDistance:"+realDistance+" dataRay[0][3]:"+dataRay[0][3]+" correctedAngle:"+correctedAngle);
+        //System.out.println("---------planeDistance: "+planeDistance+" realDistance:"+realDistance+" dataRay[0][3]:"+dataRay[0][3]+" correctedAngle:"+correctedAngle);
         //obtenemos la altura proyectada
         double aux    = ((planeDistance*block_height)/realDistance);
         proyectedWallHeight=(int)aux;
@@ -742,7 +756,7 @@ Log.d("TILE(2):"+i+"rowsdistance:"+rowsDistance+" "+colsDistance,""+colsPoints[0
 
 
             //TODO para qué es esta linea?        realDistance = realDistance>>16;
-            System.out.println("---------planeDistance: "+planeDistance+" realDistance:"+realDistance+" dataRay[0][3]:"+dataRay[0][3]+" correctedAngle:"+correctedAngle);
+            //System.out.println("---------planeDistance: "+planeDistance+" realDistance:"+realDistance+" dataRay[0][3]:"+dataRay[0][3]+" correctedAngle:"+correctedAngle);
 
             aux                  = ((planeDistance*block_height)/realDistance);
             proyectedWallHeight  = (int)aux;
@@ -769,7 +783,7 @@ Log.d("TILE(2):"+i+"rowsdistance:"+rowsDistance+" "+colsDistance,""+colsPoints[0
                     realDistance    = dataRay[i][3];
                 }
                 //TODO para qué es esta linea?        realDistance = realDistance>>16;
-                System.out.println("---------planeDistance: "+planeDistance+" realDistance:"+realDistance+" dataRay[0][3]:"+dataRay[0][3]+" correctedAngle:"+correctedAngle);
+                //System.out.println("---------planeDistance: "+planeDistance+" realDistance:"+realDistance+" dataRay[0][3]:"+dataRay[0][3]+" correctedAngle:"+correctedAngle);
 
                 aux                  = ((planeDistance*block_height)/realDistance);
                 proyectedWallHeight  = (int)aux;
@@ -1007,7 +1021,7 @@ Log.d("TILE(2):"+i+"rowsdistance:"+rowsDistance+" "+colsDistance,""+colsPoints[0
                 if (angulo==90)
                     yAux = ((block_height) * Math.sin(Math.toRadians(angulo)));
                 else
-                    yAux = (( (block_height) * Math.sin(Math.toRadians(angulo))) /
+                    yAux = Math.abs(( (block_height) * Math.sin(Math.toRadians(angulo))) /
                             (Math.cos(Math.toRadians(angulo))));
             }
             else
@@ -1017,7 +1031,7 @@ Log.d("TILE(2):"+i+"rowsdistance:"+rowsDistance+" "+colsDistance,""+colsPoints[0
                 else
                 {
                     //System.out.println(yPoint+" "+FXPMath.sin(angulo)+" "+FXPMath.cos(angulo));
-                    yAux = (((block_height) * Math.sin(Math.toRadians(angulo))) /
+                    yAux = Math.abs(((block_height) * Math.sin(Math.toRadians(angulo))) /
                             (Math.cos(Math.toRadians(angulo))));
                 }
             }
@@ -1058,15 +1072,12 @@ Log.d("TILE(2):"+i+"rowsdistance:"+rowsDistance+" "+colsDistance,""+colsPoints[0
 
         @Override
         public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-            Log.d("SURFACE","CHANGED");
 
         }
 
         @Override
         public void surfaceCreated(SurfaceHolder holder)
         {
-            Log.d("SURFACE","CREADA");
-
 
             this.setOnTouchListener(new View.OnTouchListener() {
                 @Override
@@ -1120,7 +1131,7 @@ Log.d("TILE(2):"+i+"rowsdistance:"+rowsDistance+" "+colsDistance,""+colsPoints[0
         @Override
         public void surfaceDestroyed(SurfaceHolder holder)
         {
-            Log.d("SURFACE","DESTROYED");
+            //Log.d("SURFACE","DESTROYED");
 
             boolean retry = true;
             //paramos hilo
