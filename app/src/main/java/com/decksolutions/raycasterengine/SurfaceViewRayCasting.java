@@ -38,7 +38,7 @@ import java.util.HashMap;
  *
  * Tiempo medio que tarda: 47 milisegundos
  */
-public class SurfaceViewExample extends SurfaceView implements
+public class SurfaceViewRayCasting extends SurfaceView implements
             SurfaceHolder.Callback {
         private DrawThread drawThread;
         private Point location;
@@ -119,17 +119,17 @@ public class SurfaceViewExample extends SurfaceView implements
 
         public double  FPS;
 
-        public SurfaceViewExample(Context context) {
+        public SurfaceViewRayCasting(Context context) {
             super(context);
 
         }
 
-        public SurfaceViewExample(Context context, AttributeSet attrs) {
+        public SurfaceViewRayCasting(Context context, AttributeSet attrs) {
             super(context, attrs);
 
         }
 
-        public SurfaceViewExample(Context context, AttributeSet attrs, int defStyle) {
+        public SurfaceViewRayCasting(Context context, AttributeSet attrs, int defStyle) {
             super(context, attrs, defStyle);
 
         }
@@ -142,7 +142,7 @@ public class SurfaceViewExample extends SurfaceView implements
 
             mapa = new byte[][]{
                     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,3},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
+                    {1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3},
                     {1,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
                     {1,0,0,3,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -151,8 +151,8 @@ public class SurfaceViewExample extends SurfaceView implements
                     {1,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
                     {1,0,0,4,4,0,0,0,0,0,0,0,0,0,0,0,2,2,0,1},
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-                    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,0,1},
+                    {1,0,0,0,0,0,0,0,0,0,5,5,0,0,0,0,0,0,0,1},
                     {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
                     {1,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,1},
                     {1,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -286,7 +286,7 @@ public class SurfaceViewExample extends SurfaceView implements
             calculateDistances();
             long finFPS = System.currentTimeMillis();
 
-            FPS = ((double)1000.0)/(finFPS-iniFPS);
+            FPS = (finFPS-iniFPS);
         }
 
         public void onDraw(Canvas canvas) {
@@ -339,11 +339,11 @@ public class SurfaceViewExample extends SurfaceView implements
 
             if (DEBUGMODE)
             {
-                for (int i=0;i<10;i++)
+               /* for (int i=0;i<10;i++)
                 {
                     paint.setColor(Color.RED);
                     canvas.drawLine(i*100,0,i*100,canvas.getHeight(),paint);
-                }
+                }*/
 
                 paint.setColor(Color.LTGRAY);
                 canvas.drawRect((float)canvas.getWidth()-300,0,(float)canvas.getWidth(),300,paint);
@@ -370,12 +370,12 @@ public class SurfaceViewExample extends SurfaceView implements
 
         class DrawThread extends Thread {
             private SurfaceHolder surfaceHolder;
-            SurfaceViewExample mySurfaceView;
+            SurfaceViewRayCasting mySurfaceView;
             private boolean run = false;
             private boolean initialized = false;
 
             public DrawThread(SurfaceHolder surfaceHolder,
-                              SurfaceViewExample mySurfaceView) {
+                              SurfaceViewRayCasting mySurfaceView) {
                 this.surfaceHolder = surfaceHolder;
                 this.mySurfaceView = mySurfaceView;
                 run = false;
@@ -394,7 +394,7 @@ public class SurfaceViewExample extends SurfaceView implements
 
 
                         synchronized (surfaceHolder) {
-                            Log.d("RUN","ANTES DE ONDRAW"+surfaceHolder);
+                            //Log.d("RUN","ANTES DE ONDRAW"+surfaceHolder);
                             canvas = surfaceHolder.lockCanvas();
                             if (!initialized) {
                                 mySurfaceView.initialize(canvas);
@@ -468,8 +468,7 @@ public class SurfaceViewExample extends SurfaceView implements
             }
             else
                 rowsPoints=null;
-if (i==123)
-    System.out.println("aqui");
+
             //Una vez que lo hemos hecho para las filas, tenemos que hacer
             //lo mismo para las columnas
             if (auxAngle!=90 || auxAngle!=270)
@@ -484,12 +483,12 @@ if (i==123)
             //menor
             if (rowsPoints!=null) {
                 rowsDistance = Math.sqrt(((playerX - rowsPoints[1]) * (playerX - rowsPoints[1])) + ((playerY - rowsPoints[0]) * (playerY - rowsPoints[0])));
-                Log.d("TILE(0) "+i+"--> angulo " + auxAngle + "º, pX:"+playerX+", pY:"+playerY , " rows:" + rowsDistance + " cols:" + colsDistance + " -->  pX:" + playerX + ",cP1:" + rowsPoints[1] + ",pY:" + playerY + ",cP0:" + rowsPoints[0]);
+                //Log.d("TILE(0) "+i+"--> angulo " + auxAngle + "º, pX:"+playerX+", pY:"+playerY , " rows:" + rowsDistance + " cols:" + colsDistance + " -->  pX:" + playerX + ",cP1:" + rowsPoints[1] + ",pY:" + playerY + ",cP0:" + rowsPoints[0]);
             }
 
             if (colsPoints!=null) {
                 colsDistance = Math.sqrt(((playerX - colsPoints[1]) * (playerX - colsPoints[1])) + ((playerY - colsPoints[0]) * (playerY - colsPoints[0])));
-                Log.d("TILE(0) "+i+"--> angulo " + auxAngle + "º, pX:"+playerX+", pY:"+playerY , " rows:" + rowsDistance + " cols:" + colsDistance + " -->  pX:" + playerX + ",cP1:" + colsPoints[1] + ",pY:" + playerY + ",cP0:" + colsPoints[0]);
+                //Log.d("TILE(0) "+i+"--> angulo " + auxAngle + "º, pX:"+playerX+", pY:"+playerY , " rows:" + rowsDistance + " cols:" + colsDistance + " -->  pX:" + playerX + ",cP1:" + colsPoints[1] + ",pY:" + playerY + ",cP0:" + colsPoints[0]);
             }
 
             //System.out.println(" rowsDistance: "+rowsDistance+" colsDistance: "+colsDistance);
@@ -514,7 +513,7 @@ if (i==123)
 
                         typeBlock = mapa[rowsPoints[0]/block_height][rowsPoints[1]/block_height];
 
-Log.d("TILE(1):"+i+"rowsdistance:"+rowsDistance+" "+colsDistance,""+rowsPoints[0]/block_height+" - "+rowsPoints[1]/block_height+" - "+typeBlock);
+//Log.d("TILE(1):"+i+"rowsdistance:"+rowsDistance+" "+colsDistance,""+rowsPoints[0]/block_height+" - "+rowsPoints[1]/block_height+" - "+typeBlock);
                         //En funci�n del tipo de bloque, elige el color adecuado
                         switch(typeBlock)
                         {
@@ -582,13 +581,13 @@ Log.d("TILE(1):"+i+"rowsdistance:"+rowsDistance+" "+colsDistance,""+rowsPoints[0
                                 break;
                         }
 
-Log.d("TILE(2):"+i+"rowsdistance:"+rowsDistance+" "+colsDistance,""+colsPoints[0]/block_height+" - "+colsPoints[1]/block_height+" - "+typeBlock);
+//Log.d("TILE(2):"+i+"rowsdistance:"+rowsDistance+" "+colsDistance,""+colsPoints[0]/block_height+" - "+colsPoints[1]/block_height+" - "+typeBlock);
                         //System.out.println("choca con columnas1: "+(colsPoints[0]/block_height)+" , "+(colsPoints[1]/block_height));
                 }
-else
+/*else
                 {
                     Log.d("TILE(3):"+i,"NOOOOOOOOOOOOOOOOOOOOOOOO");
-                }
+                }*/
                     //  System.out.println("wallDistance:"+wallDistance+" "+dataRay[i][0]+" "+dataRay[i][1]+" "+dataRay[i][2]+" "+dataRay[i][3]+" "+dataRay[i][4]);
 
 

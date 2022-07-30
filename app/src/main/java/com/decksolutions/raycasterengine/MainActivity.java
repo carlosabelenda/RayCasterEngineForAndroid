@@ -14,7 +14,7 @@ public class MainActivity extends Activity {
 
 		//SurfaceViewCrystal c = new SurfaceViewCrystal(this);
 		//c.init(c.getWidth(),c.getHeight());
-		SurfaceViewExample c = new SurfaceViewExample(this.getApplicationContext());
+		SurfaceViewRayCasting c = new SurfaceViewRayCasting(this.getApplicationContext());
 		setContentView(c);
 		try {
 			c.prepareScreenView();
