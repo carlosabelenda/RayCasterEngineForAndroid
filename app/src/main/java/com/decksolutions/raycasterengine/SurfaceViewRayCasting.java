@@ -92,7 +92,9 @@ public class SurfaceViewRayCasting extends SurfaceView implements
 
         //alto del player y de los bloques del escenario
         public static final int player_high=32;
-        public static final int block_height=64;
+        public int block_height;
+        public int tileX;
+        public int tileY;
 
 
         //distancia al plano de proyeccion: medio ancho del plano / tan(FOV/2)
@@ -185,7 +187,16 @@ public class SurfaceViewRayCasting extends SurfaceView implements
             default:
             dataRay[i][5] = Color.BLACK;*/
 
-                    FOV = 60.0;
+            //posicion del player (con casillas de 64 x 64)
+            tileX           = 10;
+            tileY           = 12;
+            block_height    = 64;
+            playerX = (tileX*block_height)+(block_height/2);
+            playerY = (tileY*block_height)+(block_height/2);
+            //angulo de vista en relacion al mundo
+            playerAngle     = 45;
+            FOV             = 60.0;
+
                     //datos del plano de proyeccion
                     planeWidth = canvas.getWidth();
                     planeHeight = canvas.getHeight();
@@ -215,11 +226,8 @@ public class SurfaceViewRayCasting extends SurfaceView implements
                     //angulo entre columnas= FOV / ancho pantalla (habra que utilizar coma fija)
                     angleColumns = FOV / planeWidth;
 
-                     //posicion del player (con casillas de 64 x 64)
-                    playerX = (10*block_height)+(block_height/2);
-                    playerY = (12*block_height)+(block_height/2);
-                    //angulo de vista en relacion al mundo
-                    playerAngle = 45;
+
+
 
                     //angulo actual
                     actualAngle = 45;
