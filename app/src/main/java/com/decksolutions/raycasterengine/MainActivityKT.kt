@@ -11,8 +11,7 @@ class MainActivityKT : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //SurfaceViewCrystal c = new SurfaceViewCrystal(this);
-        //c.init(c.getWidth(),c.getHeight());
+
         val c = SurfaceViewRayCasting(this.applicationContext)
         setContentView(c)
         try {
